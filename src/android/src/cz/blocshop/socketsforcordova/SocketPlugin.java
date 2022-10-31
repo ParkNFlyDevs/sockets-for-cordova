@@ -188,7 +188,11 @@ public class SocketPlugin extends CordovaPlugin {
     }
 
     private void dispatchEvent(JSONObject jsonEventObject) {
-        this.webView.sendJavascript(String.format("window.Socket.dispatchEvent(%s);", jsonEventObject.toString()));
+        try {
+            this.webView.sendJavascript(String.format("window.backedBytes = %s;", jsonEventObject.getJSONArray("data")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private class CloseEventHandler implements Consumer<Boolean> {
