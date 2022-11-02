@@ -47,7 +47,7 @@ Socket.prototype.open = function (host, port, success, error) {
     error = error || function () {
         };
 
-        if (!this._ensureState(Socket.State.CLOSED, error) || !this._ensureState(Socket.State.CLOSING, error)) {
+        if (!this._ensureState(Socket.State.CLOSED, error) && !this._ensureState(Socket.State.CLOSING, error)) {
         return;
     }
 
