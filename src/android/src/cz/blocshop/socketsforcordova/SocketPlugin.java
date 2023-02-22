@@ -93,6 +93,7 @@ public class SocketPlugin extends CordovaPlugin {
         socketAdaptersPorts.put(portString, socketKey);
 
         socketAdapter.open(host, port);
+        this.webView.sendJavascript("window.backedBytes = 'CONNECTED';");
     }
 
     private void write(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
@@ -115,6 +116,7 @@ public class SocketPlugin extends CordovaPlugin {
             callbackContext.error(e.toString());
         }
     }
+
 
     private void shutdownWrite(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
         String socketKey = args.getString(0);
@@ -182,6 +184,7 @@ public class SocketPlugin extends CordovaPlugin {
     private SocketAdapter getSocketAdapter(String socketKey) {
         if (!this.socketAdapters.containsKey(socketKey)) {
             Log.d("SocketPlugin", "Adapter not exists");
+            this.webView.sendJavascript("window.backedBytes = 'NO ADAPTER';");
             return null;
         }
         return this.socketAdapters.get(socketKey);
@@ -234,7 +237,9 @@ public class SocketPlugin extends CordovaPlugin {
                 event.put("type", "DataReceived");
                 //event.put("data", new JSONArray(data)); NOT SUPPORTED IN API LEVEL LESS THAN 19
                 event.put("data", new JSONArray(this.toByteList(data)));
+                System.out.println("to prove its in between");
                 event.put("socketKey", socketKey);
+                System.out.println(("DATABUFFER IS " + new JSONArray(this.toByteList(data))));
 
                 dispatchEvent(event);
             } catch (JSONException e) {
