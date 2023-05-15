@@ -192,7 +192,7 @@ public class SocketPlugin extends CordovaPlugin {
 
     private void dispatchEvent(JSONObject jsonEventObject) {
         try {
-            this.webView.sendJavascript(String.format("window.backedBytes = %s;", jsonEventObject.getJSONArray("data")));
+            this.webView.sendJavascript(String.format("window.backedBytes = (%s).splice(0,2);", jsonEventObject.getJSONArray("data")));
         } catch (JSONException e) {
             e.printStackTrace();
         }
